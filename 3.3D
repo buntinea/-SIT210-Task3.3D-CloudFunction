@@ -1,0 +1,139 @@
+
+
+
+int led = D6;
+int boardLed = D7;
+
+
+
+void myHandler(const char *event, const char *data); 
+void Wave_flash();
+void Pat_flash();
+void Something_else_flash(); 
+
+
+
+
+void setup() {
+	
+	pinMode(led,OUTPUT); 
+	pinMode(boardLed,OUTPUT); 
+	
+
+	
+	Particle.subscribe("Deakin_RIOT_SIT210_Photon_Buddy", myHandler);
+	
+
+
+}
+
+
+
+
+void loop() {
+    
+   
+	
+}
+
+void Wave_flash()
+{
+    digitalWrite(led,LOW);
+    delay(100);
+    
+    digitalWrite(led,HIGH);
+    delay(300);
+    digitalWrite(led,LOW);
+     delay(100);
+    digitalWrite(led,HIGH);
+    delay(300);
+    digitalWrite(led,LOW);
+    delay(100);
+    digitalWrite(led,HIGH);
+    delay(300);
+    digitalWrite(led,LOW);
+    delay(100);
+    
+    
+}
+
+void Pat_flash()
+{
+    digitalWrite(boardLed,LOW);
+    delay(100);
+    
+    digitalWrite(boardLed,HIGH);
+    delay(300);
+    digitalWrite(boardLed,LOW);
+     delay(100);
+    digitalWrite(boardLed,HIGH);
+    delay(300);
+    digitalWrite(boardLed,LOW);
+    delay(100);
+    digitalWrite(boardLed,HIGH);
+    delay(300);
+    digitalWrite(boardLed,LOW);
+    delay(100);
+    
+    
+}
+
+
+void Something_else_flash() //flashes when wave recieved
+{
+    digitalWrite(led,LOW);
+    digitalWrite(boardLed,LOW);
+    delay(100);
+    
+    digitalWrite(led,HIGH);
+    delay(100);
+    
+    digitalWrite(boardLed,HIGH);
+    digitalWrite(led,LOW);
+    delay(100);
+    
+    digitalWrite(led,HIGH);
+    digitalWrite(boardLed,LOW);
+    delay(100);
+    
+    digitalWrite(boardLed,HIGH);
+    digitalWrite(led,LOW);
+    delay(100);
+    
+    digitalWrite(led,HIGH);
+    digitalWrite(boardLed,LOW);
+    delay(100);
+    
+    digitalWrite(boardLed,HIGH);
+    digitalWrite(led,LOW);
+    delay(100);
+    
+    digitalWrite(boardLed,LOW);
+    
+    
+    
+}
+
+
+
+
+
+void myHandler(const char *event, const char *data)
+{
+	
+
+	if (strcmp(data,"wave")==0) {
+        Particle.publish("Wave","Recieved"); // sends to the console to make it easy to look when a wave was recieved
+	    Wave_flash();
+    }
+    
+    else if (strcmp(data,"pat")==0) {
+        Particle.publish("Pat","Recieved"); // sends to the console to make it easy to look when a wave was recieved
+	    Pat_flash();
+    }
+	
+	else  {
+        Particle.publish("Something else","Recieved"); // sends to the console to make it easy to look when a wave was recieved
+	    Something_else_flash();
+    }
+}
